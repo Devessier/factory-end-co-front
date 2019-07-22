@@ -1,18 +1,49 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <section class="container">
+      <article
+          v-for="({ title }, i) in articles"
+          :key="i"
+      >
+        {{ title }}
+      </article>
+    </section>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+
 
 export default {
   name: 'home',
-  components: {
-    HelloWorld
+  data () {
+    return {
+      articles: []
+    }
+  },
+  created () {
+    fetch('http://localhost:8000/articles', {
+      mode: 'cors'
+    })
+      .then(res => res.json())
+      .then(articles => {
+        this.articles = articles
+      })
+      .catch(console.error)
   }
 }
 </script>
+
+<style>
+
+  .container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .container article {
+    
+  }
+
+</style>
+
